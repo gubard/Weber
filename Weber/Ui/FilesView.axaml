@@ -5,7 +5,6 @@
              xmlns:ui="clr-namespace:Weber.Ui"
              xmlns:ip="https://github.com/MahApps/IconPacks.Avalonia"
              xmlns:dm="clr-namespace:Weber.Models"
-             xmlns:s="clr-namespace:System;assembly=System.Runtime"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Weber.Ui.FilesView"
              x:DataType="ui:FilesViewModel">
@@ -22,14 +21,10 @@
             <Image Classes="align-stretch"
                    Source="{Binding SelectedFile.Image}"
                    IsVisible="{Binding SelectedFile.Type, Converter={StaticResource IsValueConverter}, ConverterParameter={x:Static dm:FileObjectNotifyType.Image}}" />
-            <ip:PackIconMaterialDesign Classes="align-stretch"
-                                       Width="{x:Static s:Double.NaN}"
-                                       Height="{x:Static s:Double.NaN}"
+            <ip:PackIconMaterialDesign Classes="align-stretch s-nan"
                                        Kind="PictureAsPdf"
                                        IsVisible="{Binding SelectedFile.Type, Converter={StaticResource IsValueConverter}, ConverterParameter={x:Static dm:FileObjectNotifyType.Pdf}}" />
-            <ip:PackIconMaterialDesign Classes="align-stretch"
-                                       Width="{x:Static s:Double.NaN}"
-                                       Height="{x:Static s:Double.NaN}"
+            <ip:PackIconMaterialDesign Classes="align-stretch s-nan"
                                        Kind="FileCopy"
                                        IsVisible="{Binding SelectedFile.Type, Converter={StaticResource IsValueConverter}, ConverterParameter={x:Static dm:FileObjectNotifyType.Unknown}}" />
         </Panel>
