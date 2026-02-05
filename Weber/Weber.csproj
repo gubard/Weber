@@ -3,19 +3,18 @@
         <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.3.11" />
-        <PackageReference Include="Avalonia.Desktop" Version="11.3.11" />
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.11" />
-        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.11" />
-        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Include="Avalonia.Diagnostics" Version="11.3.11">
-            <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
-            <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
-        </PackageReference>
+      <ProjectReference Include="..\..\Inanna\Inanna\Inanna.csproj" />
+      <ProjectReference Include="..\..\Neotoma\Neotoma.Contract\Neotoma.Contract.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Ui\FilesView.axaml.cs">
+        <DependentUpon>FilesView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 </Project>
