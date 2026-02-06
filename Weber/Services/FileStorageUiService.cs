@@ -24,4 +24,10 @@ public sealed class FileStorageUiService(
         IFileStorageDbService,
         IFileStorageUiCache
     >(httpService, dbService, uiCache, navigator, serviceName, responseHandler),
-        IFileStorageUiService;
+        IFileStorageUiService
+{
+    protected override NeotomaGetRequest CreateGetRequestRefresh()
+    {
+        return new();
+    }
+}
