@@ -5,6 +5,7 @@
              xmlns:ui="clr-namespace:Weber.Ui"
              xmlns:ip="https://github.com/MahApps/IconPacks.Avalonia"
              xmlns:dm="clr-namespace:Weber.Models"
+             xmlns:s="clr-namespace:Inanna.Services;assembly=Inanna"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Weber.Ui.FilesView"
              x:DataType="ui:FilesViewModel">
@@ -20,13 +21,13 @@
         <Panel Grid.Row="1" Grid.ColumnSpan="2">
             <Image Classes="align-stretch"
                    Source="{Binding SelectedFile.Image}"
-                   IsVisible="{Binding SelectedFile.Type, Converter={StaticResource IsValueConverter}, ConverterParameter={x:Static dm:FileObjectNotifyType.Image}}" />
+                   IsVisible="{Binding SelectedFile.Type, Converter={x:Static s:IsValueConverter.Instance}, ConverterParameter={x:Static dm:FileObjectNotifyType.Image}}" />
             <ip:PackIconMaterialDesign Classes="align-stretch s-nan"
                                        Kind="PictureAsPdf"
-                                       IsVisible="{Binding SelectedFile.Type, Converter={StaticResource IsValueConverter}, ConverterParameter={x:Static dm:FileObjectNotifyType.Pdf}}" />
+                                       IsVisible="{Binding SelectedFile.Type, Converter={x:Static s:IsValueConverter.Instance}, ConverterParameter={x:Static dm:FileObjectNotifyType.Pdf}}" />
             <ip:PackIconMaterialDesign Classes="align-stretch s-nan"
                                        Kind="FileCopy"
-                                       IsVisible="{Binding SelectedFile.Type, Converter={StaticResource IsValueConverter}, ConverterParameter={x:Static dm:FileObjectNotifyType.Unknown}}" />
+                                       IsVisible="{Binding SelectedFile.Type, Converter={x:Static s:IsValueConverter.Instance}, ConverterParameter={x:Static dm:FileObjectNotifyType.Unknown}}" />
         </Panel>
 
         <Button Grid.Row="2"
