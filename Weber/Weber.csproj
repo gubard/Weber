@@ -1,20 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\..\Inanna\Inanna\Inanna.csproj" />
-      <ProjectReference Include="..\..\Neotoma\Neotoma.Contract\Neotoma.Contract.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Inanna\Inanna\Inanna.csproj" />
+    <ProjectReference Include="..\..\Neotoma\Neotoma.Contract\Neotoma.Contract.csproj" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <Compile Update="Ui\FilesView.axaml.cs">
-        <DependentUpon>FilesView.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-    </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Ui\FilesView.axaml.cs">
+      <DependentUpon>FilesView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>

@@ -41,7 +41,7 @@ public sealed class WeberViewModelFactory : IWeberViewModelFactory
             _stringFormater
         );
     }
-    
+
     private readonly IStringFormater _stringFormater;
     private readonly IAppResourceService _appResourceService;
     private readonly IFileStorageUiService _fileStorageUiService;
