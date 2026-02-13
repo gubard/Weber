@@ -16,7 +16,7 @@ using Weber.Services;
 
 namespace Weber.Ui;
 
-public partial class FilesViewModel : ViewModelBase
+public sealed partial class FilesViewModel : ViewModelBase
 {
     public FilesViewModel(
         AvaloniaList<FileObjectNotify> files,
