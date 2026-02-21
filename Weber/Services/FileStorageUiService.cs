@@ -12,8 +12,7 @@ public sealed class FileStorageUiService(
     IFileStorageDbService dbService,
     IFileStorageUiCache uiCache,
     INavigator navigator,
-    string serviceName,
-    IResponseHandler responseHandler
+    string serviceName
 )
     : UiService<
         NeotomaGetRequest,
@@ -23,7 +22,7 @@ public sealed class FileStorageUiService(
         IFileStorageHttpService,
         IFileStorageDbService,
         IFileStorageUiCache
-    >(httpService, dbService, uiCache, navigator, serviceName, responseHandler),
+    >(httpService, dbService, uiCache, navigator, serviceName),
         IFileStorageUiService
 {
     protected override NeotomaGetRequest CreateGetRequestRefresh()
