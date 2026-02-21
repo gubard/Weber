@@ -55,7 +55,11 @@ public sealed class FileStorageMemoryCache
             {
                 var item = GetItem(id);
                 Items.Remove(id);
-                _files[item.Dir].Remove(item);
+
+                if (_files.TryGetValue(item.Dir, out var files))
+                {
+                    files.Remove(item);
+                }
             }
         });
 
