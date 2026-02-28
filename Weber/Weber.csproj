@@ -10,11 +10,4 @@
     <ProjectReference Include="..\..\Inanna\Inanna\Inanna.csproj" />
     <ProjectReference Include="..\..\Neotoma\Neotoma.Contract\Neotoma.Contract.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Ui\FilesView.axaml.cs">
-      <DependentUpon>FilesView.axaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
 </Project>
