@@ -9,13 +9,13 @@ using Neotoma.Contract.Services;
 namespace Weber.Services;
 
 public sealed class FileStorageHttpService(
-    HttpClient httpClient,
+    IFactory<HttpClient> httpClientFactory,
     JsonSerializerOptions options,
     ITryPolicyService tryPolicyService,
     IFactory<Memory<HttpHeader>> headersFactory
 )
     : HttpService<NeotomaGetRequest, NeotomaPostRequest, NeotomaGetResponse, NeotomaPostResponse>(
-        httpClient,
+        httpClientFactory,
         options,
         tryPolicyService,
         headersFactory
