@@ -24,8 +24,10 @@ public sealed partial class FilesViewModel : ViewModelBase
         IFileStorageUiService fileStorageUiService,
         Application app,
         IAppResourceService appResourceService,
-        IStringFormater stringFormater
+        IStringFormater stringFormater,
+        ISafeExecuteWrapper safeExecuteWrapper
     )
+        : base(safeExecuteWrapper)
     {
         _files = files;
         _selectedFile = selectedFile;

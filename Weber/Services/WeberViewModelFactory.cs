@@ -14,17 +14,9 @@ public interface IWeberViewModelFactory
 
 public sealed class WeberViewModelFactory : IWeberViewModelFactory
 {
-    public WeberViewModelFactory(
-        IStringFormater stringFormater,
-        IAppResourceService appResourceService,
-        IFileStorageUiService fileStorageUiService,
-        Application app
-    )
+    public WeberViewModelFactory(IServiceProvider serviceProvider)
     {
-        _stringFormater = stringFormater;
-        _appResourceService = appResourceService;
-        _fileStorageUiService = fileStorageUiService;
-        _app = app;
+        _serviceProvider = serviceProvider;
     }
 
     public FilesViewModel CreateFiles(
@@ -35,15 +27,13 @@ public sealed class WeberViewModelFactory : IWeberViewModelFactory
         return new(
             files,
             selectedFile,
-            _fileStorageUiService,
-            _app,
-            _appResourceService,
-            _stringFormater
+            _serviceProvider.GetService<IFileStorageUiService>(),
+            _serviceProvider.GetService<Application>(),
+            _serviceProvider.GetService<IAppResourceService>(),
+            _serviceProvider.GetService<IStringFormater>(),
+            _serviceProvider.GetService<ISafeExecuteWrapper>()
         );
     }
 
-    private readonly IStringFormater _stringFormater;
-    private readonly IAppResourceService _appResourceService;
-    private readonly IFileStorageUiService _fileStorageUiService;
-    private readonly Application _app;
+    private readonly IServiceProvider _serviceProvider;
 }

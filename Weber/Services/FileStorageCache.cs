@@ -42,7 +42,8 @@ public sealed class FileStorageMemoryCache
     : MemoryCache<FileObjectNotify, NeotomaPostRequest, NeotomaGetResponse>,
         IFileStorageMemoryCache
 {
-    private readonly Dictionary<string, AvaloniaList<FileObjectNotify>> _files = new();
+    public FileStorageMemoryCache(IServiceProvider serviceProvider)
+        : base(serviceProvider) { }
 
     public override ConfiguredValueTaskAwaitable UpdateAsync(
         NeotomaPostRequest source,
@@ -98,6 +99,8 @@ public sealed class FileStorageMemoryCache
 
         return files;
     }
+
+    private readonly Dictionary<string, AvaloniaList<FileObjectNotify>> _files = new();
 
     private FileObjectNotify UpdateItem(FileData data, string dir)
     {

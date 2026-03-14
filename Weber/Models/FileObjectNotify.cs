@@ -5,12 +5,13 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Gaia.Services;
+using IServiceProvider = Gaia.Services.IServiceProvider;
 
 namespace Weber.Models;
 
 public sealed partial class FileObjectNotify
     : ObservableObject,
-        IStaticFactory<Guid, FileObjectNotify>
+        IStaticServiceFactory<Guid, FileObjectNotify>
 {
     public FileObjectNotify(Guid id)
     {
@@ -25,7 +26,7 @@ public sealed partial class FileObjectNotify
     public IImage? Image => _image;
     public FileObjectNotifyType Type => ParseType();
 
-    public static FileObjectNotify Create(Guid input)
+    public static FileObjectNotify Create(Guid input, IServiceProvider serviceProvider)
     {
         return new(input);
     }
