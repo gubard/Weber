@@ -52,6 +52,14 @@ public sealed class FileStorageMemoryCache
     {
         Dispatcher.UIThread.Post(() =>
         {
+            foreach (var item in source.Creates)
+            {
+                foreach (var value in item.Value)
+                {
+                    UpdateItem(value, item.Key);
+                }
+            }
+
             foreach (var id in source.Deletes)
             {
                 var item = GetItem(id);
@@ -74,13 +82,21 @@ public sealed class FileStorageMemoryCache
     {
         Dispatcher.UIThread.Post(() =>
         {
-            foreach (var item in source.GetFiles)
+            foreach (var item in source.Info)
             {
                 var files = GetFiles(item.Key);
 
-                files.UpdateOrder(
-                    item.Value.OrderBy(x => x.Name).Select(x => UpdateItem(x, item.Key)).ToArray()
-                );
+                var values = item
+                    .Value.OrderBy(x => x.Name)
+                    .Select(x => UpdateItem(x, item.Key))
+                    .ToArray();
+
+                files.UpdateOrder(values);
+            }
+
+            foreach (var data in source.Data)
+            {
+                UpdateItem(data);
             }
         });
 
@@ -102,14 +118,40 @@ public sealed class FileStorageMemoryCache
 
     private readonly Dictionary<string, AvaloniaList<FileObjectNotify>> _files = new();
 
-    private FileObjectNotify UpdateItem(FileData data, string dir)
+    private FileObjectNotify UpdateItem(FileObjectInfo value, string dir)
     {
-        var item = GetItem(data.Id);
-        item.Name = data.Name;
-        item.Description = data.Description;
-        item.Data = data.Data;
-        item.Status = FileObjectNotifyStatus.Updated;
+        var item = GetItem(value.Id);
+        item.Name = value.Name;
+        item.Description = value.Description;
         item.Dir = dir;
+
+        item.Status =
+            value.Hash == item.Hash
+                ? FileObjectNotifyStatus.Updated
+                : FileObjectNotifyStatus.WrongHash;
+
+        return item;
+    }
+
+    private FileObjectNotify UpdateItem(FileObject value, string dir)
+    {
+        var item = GetItem(value.Id);
+        item.Name = value.Name;
+        item.Description = value.Description;
+        item.Data = value.Data;
+        item.Dir = dir;
+        var files = GetFiles(dir);
+        files.AddSorted(item, x => x.Name);
+
+        return item;
+    }
+
+    private FileObjectNotify UpdateItem(FileObjectData value)
+    {
+        var item = GetItem(value.Id);
+        item.Data = value.Data;
+        item.Hash = value.Hash;
+        item.Status = FileObjectNotifyStatus.Updated;
 
         return item;
     }

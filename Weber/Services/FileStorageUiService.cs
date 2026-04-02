@@ -1,3 +1,6 @@
+using System.Threading;
+using System.Threading.Tasks;
+using Gaia.Services;
 using Inanna.Services;
 using Neotoma.Contract.Models;
 using Neotoma.Contract.Services;
@@ -27,8 +30,12 @@ public sealed class FileStorageUiService(
     >(httpService, dbService, uiCache, navigator, serviceName, statusBarService, factory),
         IFileStorageUiService
 {
-    protected override NeotomaGetRequest CreateGetRequestRefresh()
+    protected override async ValueTask<IValidationErrors> RefreshServiceCore(CancellationToken ct)
     {
-        return new();
+        var request = new NeotomaGetRequest();
+        var response = await DbService.GetAsync(request, ct);
+        await UiCache.UpdateAsync(response, ct);
+
+        return response;
     }
 }

@@ -73,6 +73,9 @@ public sealed partial class FileObjectNotify
     [ObservableProperty]
     private FileObjectNotifyStatus _status;
 
+    [ObservableProperty]
+    private string _hash;
+
     private void UpdateImage()
     {
         _image?.Dispose();
@@ -136,4 +139,5 @@ public enum FileObjectNotifyStatus
     Updated,
     Deleted,
     Added,
+    WrongHash,
 }
