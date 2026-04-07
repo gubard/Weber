@@ -32,7 +32,7 @@ public sealed class FileStorageUiService(
 {
     protected override async ValueTask<IValidationErrors> RefreshServiceCore(CancellationToken ct)
     {
-        var request = new NeotomaGetRequest();
+        var request = new NeotomaGetRequest { IsGetAll = true };
         var response = await DbService.GetAsync(request, ct);
         await UiCache.UpdateAsync(response, ct);
 

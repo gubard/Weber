@@ -82,6 +82,18 @@ public sealed class FileStorageMemoryCache
     {
         Dispatcher.UIThread.Post(() =>
         {
+            foreach (var item in source.All)
+            {
+                var files = GetFiles(item.Key);
+
+                var values = item
+                    .Value.OrderBy(x => x.Name)
+                    .Select(x => UpdateItem(x, item.Key))
+                    .ToArray();
+
+                files.UpdateOrder(values);
+            }
+
             foreach (var item in source.Info)
             {
                 var files = GetFiles(item.Key);
