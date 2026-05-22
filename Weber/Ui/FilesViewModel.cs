@@ -11,6 +11,7 @@ using Gaia.Services;
 using Inanna.Helpers;
 using Inanna.Models;
 using Inanna.Services;
+using Inanna.Ui;
 using Weber.Models;
 using Weber.Services;
 
@@ -25,7 +26,9 @@ public sealed partial class FilesViewModel : ViewModelBase
         Application app,
         IAppResourceService appResourceService,
         IStringFormater stringFormater,
-        ISafeExecuteWrapper safeExecuteWrapper
+        ISafeExecuteWrapper safeExecuteWrapper,
+        IDialogService dialogService,
+        ICommandFactory commandFactory
     )
         : base(safeExecuteWrapper)
     {
@@ -35,6 +38,9 @@ public sealed partial class FilesViewModel : ViewModelBase
         _app = app;
         _appResourceService = appResourceService;
         _stringFormater = stringFormater;
+        _safeExecuteWrapper = safeExecuteWrapper;
+        _dialogService = dialogService;
+        _commandFactory = commandFactory;
     }
 
     [ObservableProperty]
@@ -45,6 +51,9 @@ public sealed partial class FilesViewModel : ViewModelBase
     private readonly Application _app;
     private readonly IAppResourceService _appResourceService;
     private readonly IStringFormater _stringFormater;
+    private readonly IDialogService _dialogService;
+    private readonly ISafeExecuteWrapper _safeExecuteWrapper;
+    private readonly ICommandFactory _commandFactory;
 
     [RelayCommand]
     private void NextFile()
@@ -87,11 +96,57 @@ public sealed partial class FilesViewModel : ViewModelBase
     {
         await WrapCommandAsync(
             () =>
-                _fileStorageUiService.PostAsync(
-                    Guid.NewGuid(),
-                    new() { Deletes = [SelectedFile.Id] },
-                    ct
-                ),
+            {
+                var header = _appResourceService
+                    .GetResource<string>("Lang.Delete")
+                    .ToDialogHeader();
+
+                var content = _stringFormater.Format(
+                    _appResourceService.GetResource<string>("Lang.AskDelete"),
+                    SelectedFile.Name
+                );
+
+                var buttonContent = _appResourceService.GetResource<string>("Lang.Delete");
+
+                var command = _commandFactory.CreateCommand(async c =>
+                {
+                    var id = SelectedFile.Id;
+                    await _dialogService.CloseMessageBoxAsync(c);
+
+                    if (_files.Count == 1)
+                    {
+                        await _dialogService.CloseMessageBoxAsync(c);
+                    }
+                    else
+                    {
+                        var index = _files.IndexOf(SelectedFile);
+                        SelectedFile = index > 0 ? _files[index - 1] : _files[0];
+                    }
+
+                    return await _fileStorageUiService.PostAsync(
+                        Guid.NewGuid(),
+                        new() { Deletes = [id] },
+                        c
+                    );
+                });
+
+                var button = new DialogButton(
+                    buttonContent,
+                    command,
+                    null,
+                    DialogButtonType.Danger
+                );
+
+                var dialog = new DialogViewModel(
+                    header,
+                    content,
+                    _safeExecuteWrapper,
+                    button,
+                    _dialogService.CancelButton
+                );
+
+                return _dialogService.ShowMessageBoxAsync(dialog, ct);
+            },
             ct
         );
     }
