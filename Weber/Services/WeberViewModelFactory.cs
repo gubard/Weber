@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Collections;
 using Gaia.Services;
+using Inanna.Models;
 using Inanna.Services;
 using Weber.Models;
 using Weber.Ui;
@@ -31,7 +32,7 @@ public sealed class WeberViewModelFactory : IWeberViewModelFactory
             _serviceProvider.GetService<Application>(),
             _serviceProvider.GetService<IAppResourceService>(),
             _serviceProvider.GetService<IStringFormater>(),
-            _serviceProvider.GetService<ISafeExecuteWrapper>(),
+            _serviceProvider.GetService<ViewModelServices>(),
             _serviceProvider.GetService<IDialogService>(),
             _serviceProvider.GetService<ICommandFactory>()
         );

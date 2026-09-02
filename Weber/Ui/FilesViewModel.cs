@@ -26,11 +26,11 @@ public sealed partial class FilesViewModel : ViewModelBase
         Application app,
         IAppResourceService appResourceService,
         IStringFormater stringFormater,
-        ISafeExecuteWrapper safeExecuteWrapper,
+        ViewModelServices services,
         IDialogService dialogService,
         ICommandFactory commandFactory
     )
-        : base(safeExecuteWrapper)
+        : base(services)
     {
         _files = files;
         _selectedFile = selectedFile;
@@ -38,7 +38,6 @@ public sealed partial class FilesViewModel : ViewModelBase
         _app = app;
         _appResourceService = appResourceService;
         _stringFormater = stringFormater;
-        _safeExecuteWrapper = safeExecuteWrapper;
         _dialogService = dialogService;
         _commandFactory = commandFactory;
     }
@@ -52,7 +51,6 @@ public sealed partial class FilesViewModel : ViewModelBase
     private readonly IAppResourceService _appResourceService;
     private readonly IStringFormater _stringFormater;
     private readonly IDialogService _dialogService;
-    private readonly ISafeExecuteWrapper _safeExecuteWrapper;
     private readonly ICommandFactory _commandFactory;
 
     [RelayCommand]
@@ -137,15 +135,13 @@ public sealed partial class FilesViewModel : ViewModelBase
                     DialogButtonType.Danger
                 );
 
-                var dialog = new DialogViewModel(
+                return _dialogService.ShowMessageBoxAsync(
                     header,
                     content,
-                    _safeExecuteWrapper,
+                    ct,
                     button,
                     _dialogService.CancelButton
                 );
-
-                return _dialogService.ShowMessageBoxAsync(dialog, ct);
             },
             ct
         );
